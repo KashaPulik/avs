@@ -1,5 +1,8 @@
 #!/bin/bash
 
-head /etc/os-release -n 2 | tail -n 1
-head /etc/os-release -n 4 | tail -n 1
-uname -rm
+SYSTEM=$(hostnamectl | grep -m 1 'Operating System:' | sed 's/^.*: //')
+KERNEL=$(uname -r)
+ARCHITECTURE=$(uname -m)
+echo System:'                '$SYSTEM
+echo Kernel version:'        '$KERNEL
+echo Kernel achitecture:'    '$ARCHITECTURE
