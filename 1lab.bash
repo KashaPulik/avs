@@ -14,6 +14,11 @@ L3=$(lscpu | grep -m 1 'L3' | sed 's/.*: //' | sed 's/[ \t]*//;s/[ \t]*$//' | aw
 AVAILABLE_MEMORY=$(free --mega | grep -m 1 'Mem' | awk '{print $7}')
 TOTAL_MEMORY=$(free --mega | grep -m 1 'Mem' | awk '{print $2}')
 USED_MEMORY=$(free --mega | grep -m 1 'Mem' | awk '{print $3}')
+INTERFACE_NAME=$(ip --brief address show | tail -n 1 | awk '{print $1}')
+IP=$(ip --brief address show | tail -n 1 | awk '{print $3}' | cut -d'/' -f1)
+IPV6=$(ip --brief address show | tail -n 1 | awk '{print $4}' | cut -d'/' -f1)
+MAC=$(ip a | grep -m 1 'link/ether' | awk '{print $2}')
+SPEED=$(head /sys/class/net/$INTERFACE_NAME/speed)
 
 echo "System info:"
 printf "%-20s %-10s %s\n" "System" ":" "$SYSTEM"
@@ -31,4 +36,12 @@ printf "%-20s %-10s %-9s MiB\n\n" "L3 cache" ":" "$L3"
 echo "Memory info:"
 printf "%-20s %-10s %-9s MB\n" "Available memory" ":" "$AVAILABLE_MEMORY"
 printf "%-20s %-10s %-9s MB\n" "Total memory" ":" "$TOTAL_MEMORY"
-printf "%-20s %-10s %-9s MB\n" "Used memory" ":" "$USED_MEMORY"
+printf "%-20s %-10s %-9s MB\n\n" "Used memory" ":" "$USED_MEMORY"
+echo "Net info:"
+printf "%-20s %-10s %s\n" "Interface" ":" "$INTERFACE_NAME"
+printf "%-20s %-10s %s\n" "IP address" ":" "$IP"
+printf "%-20s %-10s %s\n" "IPv6 address" ":" "$IPV6"
+printf "%-20s %-10s %s\n" "MAC address" ":" "$MAC"
+printf "%-20s %-10s %-9s Mb/s\n\n" "Interface speed" ":" "$SPEED"
+echo "Disk info:"
+df -h | awk 'NR==1 || /^\/dev/'
