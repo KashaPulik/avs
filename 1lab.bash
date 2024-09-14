@@ -17,7 +17,7 @@ printf "%-20s %-10s %s\n" "System" ":" "$SYSTEM"
 printf "%-20s %-10s %s\n" "Kernel version" ":" "$KERNEL"
 printf "%-20s %-10s %s\n\n" "Kernel architecture" ":" "$ARCHITECTURE"
 echo "CPU info:"
-lscpu | grep -E 'Socket|Model name|CPU min MHz|CPU max MHz|L1d|L1i|L2|L3'
+lscpu | grep -E 'Socket|Model name|Core|MHz|L1d|L1i|L2|L3'
 echo ""
 echo "Memory info:"
 printf "%-20s %-10s %-9s MB\n" "Available memory" ":" "$AVAILABLE_MEMORY"
